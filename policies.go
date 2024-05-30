@@ -330,12 +330,12 @@ func (r *roundRobinHostPolicy) Pick(qry ExecutableQuery) NextHost {
 }
 
 func (r *roundRobinHostPolicy) AddHost(host *HostInfo) {
-	println("roundRobinHostPolicy AddHost", host.ConnectAddress().String(), " ", host.State(), " ", r.hosts.get())
+	println("roundRobinHostPolicy AddHost", host, " ", host.ConnectAddress().String(), " ", host.State(), " ", r.hosts.get())
 	r.hosts.add(host)
 }
 
 func (r *roundRobinHostPolicy) RemoveHost(host *HostInfo) {
-	println("roundRobinHostPolicy RemoveHost", host.ConnectAddress().String(), " ", host.State(), " ", r.hosts.get())
+	println("roundRobinHostPolicy RemoveHost", host, " ", host.ConnectAddress().String(), " ", host.State(), " ", r.hosts.get())
 	r.hosts.remove(host.ConnectAddress())
 }
 
