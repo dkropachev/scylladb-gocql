@@ -108,14 +108,19 @@ func (q *queryExecutor) do(ctx context.Context, qry ExecutableQuery, hostIter Ne
 
 	var lastErr error
 	var iter *Iter
+	println("queryExecutor ", selectedHost != nil)
 	for selectedHost != nil {
 		host := selectedHost.Info()
+		println("queryExecutor host ", host)
 		if host == nil || !host.IsUp() {
+			println("queryExecutor host not up ", host)
 			selectedHost = hostIter()
 			continue
 		}
+		println("queryExecutor host is up ", host)
 
 		pool, ok := q.pool.getPool(host)
+		println("queryExecutor getPool ", ok)
 		if !ok {
 			selectedHost = hostIter()
 			continue
@@ -123,9 +128,11 @@ func (q *queryExecutor) do(ctx context.Context, qry ExecutableQuery, hostIter Ne
 
 		conn := pool.Pick()
 		if conn == nil {
+			println("queryExecutor pool not connection")
 			selectedHost = hostIter()
 			continue
 		}
+		println("queryExecutor pool has connection")
 
 		iter = q.attemptQuery(ctx, qry, conn)
 		iter.host = selectedHost.Info()
@@ -134,15 +141,18 @@ func (q *queryExecutor) do(ctx context.Context, qry ExecutableQuery, hostIter Ne
 		case context.Canceled, context.DeadlineExceeded, ErrNotFound:
 			// those errors represents logical errors, they should not count
 			// toward removing a node from the pool
+			println("queryExecutor selectedHost.Mark nil error")
 			selectedHost.Mark(nil)
 			return iter
 		default:
+			println("queryExecutor selectedHost.Mark ", iter.err)
 			selectedHost.Mark(iter.err)
 		}
 
 		// Exit if the query was successful
 		// or no retry policy defined or retry attempts were reached
 		if iter.err == nil || rt == nil || !rt.Attempt(qry) {
+			println("queryExecutor iter.err == nil || rt == nil || !rt.Attempt(qry)")
 			return iter
 		}
 		lastErr = iter.err
@@ -151,11 +161,14 @@ func (q *queryExecutor) do(ctx context.Context, qry ExecutableQuery, hostIter Ne
 		switch rt.GetRetryType(iter.err) {
 		case Retry:
 			// retry on the same host
+			println("queryExecutor retry")
 			continue
 		case Rethrow, Ignore:
+			println("queryExecutor Ignore")
 			return iter
 		case RetryNextHost:
 			// retry on the next host
+			println("queryExecutor RetryNextHost")
 			selectedHost = hostIter()
 			continue
 		default:
@@ -165,9 +178,11 @@ func (q *queryExecutor) do(ctx context.Context, qry ExecutableQuery, hostIter Ne
 	}
 
 	if lastErr != nil {
+		println("queryExecutor lastErr != nil")
 		return &Iter{err: lastErr}
 	}
 
+	println("queryExecutor ErrNoConnections")
 	return &Iter{err: ErrNoConnections}
 }
 
