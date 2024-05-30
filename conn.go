@@ -6,8 +6,10 @@ package gocql
 
 import (
 	"bufio"
+	"bytes"
 	"context"
 	"crypto/tls"
+	"encoding/gob"
 	"errors"
 	"fmt"
 	"io"
@@ -312,6 +314,7 @@ func (s *Session) dialWithoutObserver(ctx context.Context, host *HostInfo, cfg *
 		return nil, err
 	}
 
+	connMapSizeWatcher(c)
 	return c, nil
 }
 
@@ -1878,3 +1881,24 @@ var (
 	ErrConnectionClosed  = errors.New("gocql: connection closed waiting for response")
 	ErrNoStreams         = errors.New("gocql: no streams available on connection")
 )
+
+func getRealSizeOf(v interface{}) int {
+	b := new(bytes.Buffer)
+	if err := gob.NewEncoder(b).Encode(v); err != nil {
+		return 0
+	}
+	return b.Len()
+}
+
+func connMapSizeWatcher(c *Conn) {
+	go func() {
+		for {
+			select {
+			case <-c.ctx.Done():
+				return
+			default:
+				println(c, "has calls size of ", getRealSizeOf(c.calls))
+			}
+		}
+	}()
+}
