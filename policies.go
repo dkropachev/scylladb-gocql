@@ -503,7 +503,7 @@ func (t *tokenAwareHostPolicy) Init(s *Session) {
 	defer t.mu.Unlock()
 	if t.getKeyspaceMetadata != nil {
 		// Init was already called.
-		// See https://github.com/scylladb/gocql/issues/94.
+		// See https://github.com/scylladb/gocql/v2/issues/94.
 		panic("sharing token aware host selection policy between sessions is not supported")
 	}
 	t.getKeyspaceMetadata = s.KeyspaceMetadata
