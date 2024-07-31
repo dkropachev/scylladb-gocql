@@ -8,7 +8,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/gocql/gocql"
+	"github.com/dkropachev/gocql/v2"
 	"sigs.k8s.io/yaml"
 )
 

@@ -16,8 +16,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/gocql/gocql"
-	"github.com/gocql/gocql/scyllacloud"
+	"github.com/dkropachev/gocql/v2"
+	"github.com/dkropachev/gocql/v2/scyllacloud"
 	"sigs.k8s.io/yaml"
 )
 

@@ -2,7 +2,7 @@ package gocql_test
 
 import (
 	"context"
-	"github.com/gocql/gocql"
+	"github.com/dkropachev/gocql/v2"
 	"log"
 )
 

@@ -1,4 +1,4 @@
-module github.com/gocql/gocql
+module github.com/dkropachev/gocql/v2
 
 require (
 	github.com/bitly/go-hostpool v0.0.0-20171023180738-a3a6125de932 // indirect
@@ -11,13 +11,6 @@ require (
 	golang.org/x/net v0.0.0-20220526153639-5463443f8c37
 	gopkg.in/inf.v0 v0.9.1
 	sigs.k8s.io/yaml v1.3.0
-)
-
-retract (
-    v1.8.0  // tag from kiwicom/gocql added by mistake to scylladb/gocql
-    v1.8.1  // tag from kiwicom/gocql added by mistake to scylladb/gocql
-    v1.9.0  // tag from kiwicom/gocql added by mistake to scylladb/gocql
-    v1.10.0 // tag from kiwicom/gocql added by mistake to scylladb/gocql
 )
 
 go 1.13
