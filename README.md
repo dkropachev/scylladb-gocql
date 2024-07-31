@@ -27,7 +27,7 @@ This is a drop-in replacement to gocql, it uses the `github.com/scylladb/gocql` 
 
 Add module requirement to your `go.mod` file:
 ```
-go mod get github.com/scylladb/gocql
+go get github.com/scylladb/gocql
 ```
 
 and run 
