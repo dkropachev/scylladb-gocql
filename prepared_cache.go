@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"sync"
 
-	"github.com/dkropachev/gocql/v2/internal/lru"
+	"github.com/dkropachev/gocql/internal/lru"
 )
 
 const defaultMaxPreparedStmts = 1000

@@ -3,7 +3,7 @@ package gocql_test
 import (
 	"context"
 	"fmt"
-	"github.com/dkropachev/gocql/v2"
+	"github.com/dkropachev/gocql"
 	"log"
 	"os"
 	"reflect"

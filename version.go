@@ -3,7 +3,7 @@ package gocql
 import "runtime/debug"
 
 const (
-	mainModule = "github.com/dkropachev/gocql/v2"
+	mainModule = "github.com/dkropachev/gocql"
 )
 
 var driverName string
